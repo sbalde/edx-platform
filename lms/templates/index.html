@@ -1,0 +1,274 @@
+<%inherit file="main.html" />
+<%namespace name='static' file='static_content.html'/>
+<%!
+from django.utils.translation import ugettext as _
+from django.core.urlresolvers import reverse
+from microsite_configuration import microsite
+%>
+
+<%
+  homepage_overlay_html = microsite.get_value('homepage_overlay_html')
+
+  ## To display a welcome video, change False to True, and add a YouTube ID (11 chars, eg "123456789xX") in the following line
+  show_homepage_promo_video = microsite.get_value('show_homepage_promo_video', False)
+  homepage_promo_video_youtube_id = microsite.get_value('homepage_promo_video_youtube_id', "your-youtube-id")
+
+  show_partners = microsite.get_value('show_partners', True)
+
+%>
+
+
+<!--<section class="home">
+ <header>
+    <div class="outer-wrapper">
+      <div class="title">-->
+
+
+
+<!--</div>
+    </div>
+
+  </header>-->
+
+
+   <div class="content-home">
+        <div class="home-header">
+                <div id="myCarousel" data-ride="carousel" class="carousel slide">
+                        <div class="carousel-inner">
+                                <div class="item active">
+                                        <div class="img-header"></div>
+                                        <div class="container">
+                                                <div class="carousel-caption">
+                                                        <h1>Making africa a better place to live</h1>
+                                                        <p class="caption-text">I love you mama africa</p>
+                                                        <p><a href="/login" role="button" class="btn btn-lg btn-primary">SAÏKOU</a></p>
+                                                </div>
+                                        </div>
+                                </div>
+                        </div>
+                </div>
+        </div>
+
+
+          % if settings.FEATURES.get('ENABLE_COURSE_DISCOVERY'):
+          <div class="course-search">
+            <form method="get" action="/search">
+              <input class="search-input" name="search_query" type="text" placeholder="${_("Search for a course")}"></input>
+              <button class="search-button" type="submit">
+                <i class="icon fa fa-search" aria-hidden="true"></i>
+              </button>
+            </form>
+          </div>
+          % endif
+
+<!--start Content Block 1-3 -->
+    <section id="content-1-3" class="content-block content-1-3">
+                <div class="container">
+                        <div class="row">
+                                <div class="col-md-12">
+                                        
+                                        <div class="underlined-title">
+                                                <div class="editContent">
+                                                <h1>Every service under one roof</h1>
+                                                </div>
+                                                <hr>
+                                </div>
+                                                        
+                                        <div class="services-wrapper">
+                                                <div class="col-md-4">
+                                                        <div class="icon bg-crete">
+                                                                <span class="fa fa-laptop"></span>
+                                                        </div>
+                                                        <div class="editContent">
+                                                                <h4>Digital Design</h4>
+                                                        </div>
+                                                        <div class="editContent">
+                                                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed a lorem quis neque interdum consequat ut sed sem.</p>
+                                                        </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                        <div class="icon bg-finn">
+                                                                <span class="fa fa-code"></span>
+                                                        </div>
+                                                        <div class="editContent">
+                                                                <h4>Web Development</h4>
+                                                        </div>
+                                                        <div class="editContent">
+                                                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed a lorem quis neque interdum consequat ut sed sem.</p>
+                                                        </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                        <div class="icon bg-sunflower">
+                                                                <span class="fa fa-rocket"></span>
+                                                        </div>
+                                                        <div class="editContent">
+                                                                <h4>Creative Direction</h4>
+                                                        </div>
+                                                        <div class="editContent">
+                                                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed a lorem quis neque interdum consequat ut sed sem.</p>
+                                                        </div>
+                                                </div>
+                                        </div>
+                                </div>
+                        </div>
+                </div>
+        </section>
+    <!--// END Content Block 1-3 -->
+
+
+
+
+
+
+<section class="home">
+  <section class="courses-container">
+    <section class="highlighted-courses">
+
+      % if settings.FEATURES.get('COURSES_ARE_BROWSABLE'):
+        <section class="courses">
+            <ul class="courses-listing">
+            ## limiting the course number by using HOMEPAGE_COURSE_MAX as the maximum number of courses
+            %for course in courses[:settings.HOMEPAGE_COURSE_MAX]:
+              <li class="courses-listing-item">
+                <%include file="course.html" args="course=course" />
+              </li>
+            %endfor
+            </ul>
+        </section>
+        ## in case there are courses that are not shown on the homepage, a 'View all Courses' link should appear
+        % if settings.HOMEPAGE_COURSE_MAX and len(courses) > settings.HOMEPAGE_COURSE_MAX:
+          <div class="courses-more">
+            <a class="courses-more-cta" href="${marketing_link('COURSES')}" > ${_("View all Courses")} </a>
+          </div>
+        % endif
+      % endif
+
+    </section>
+  </section>
+</section>
+
+
+
+
+
+
+
+
+
+    <!-- Start Content Block 3-5 -->
+    <section id="content-3-5" class="content-block content-3-5">
+        <div class="container">
+
+            <div class="row">
+               <!-- Feature Box 1-->
+                <div class="col-md-3 col-sm-6 col-xs-12">
+                    <div class="feature-box">
+                        <div class="icon">
+                            <span class="fa fa-pencil"></span>
+                        </div>
+                        <div class="editContent">
+                            <h3>Branding</h3>
+                        </div>
+                        <div class="editContent">
+                            <p>Retro chillwave YOLO four loko photo booth. Brooklyn kale chips, seitan hella 3 wolf moon slow-carb paleo.</p>
+                        </div>
+                    </div>
+                </div>
+
+               <!-- Feature Box 2-->
+                <div class="col-md-3 col-sm-6 col-xs-12">
+                    <div class="feature-box">
+                        <div class="icon">
+                            <span class="fa fa-code"></span>
+                        </div>
+                        <div class="editContent">
+                            <h3>Web Design</h3>
+                        </div>
+                        <div class="editContent">
+                            <p>Retro chillwave YOLO four loko photo booth. Brooklyn kale chips, seitan hella 3 wolf moon slow-carb paleo.</p>
+                        </div>
+                    </div>
+                </div>
+
+                 <!--Feature Box 3-->
+                <div class="col-md-3 col-sm-6 col-xs-12">
+                    <div class="feature-box">
+                        <div class="icon">
+                            <span class="fa fa-search"></span>
+                        </div>
+                        <div class="editContent">
+                            <h3>SEO</h3>
+                        </div>
+                        <div class="editContent">
+                            <p>Retro chillwave YOLO four loko photo booth. Brooklyn kale chips, seitan hella 3 wolf moon slow-carb paleo.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Feature Box 4-->
+                <div class="col-md-3 col-sm-6 col-xs-12">
+                    <div class="feature-box">
+                        <div class="icon">
+                            <span class="fa fa-mobile"></span>
+                        </div>
+                        <div class="editContent">
+                            <h3>Mobile Apps</h3>
+                        </div>
+                        <div class="editContent">
+                            <p>Retro chillwave YOLO four loko photo booth. Brooklyn kale chips, seitan hella 3 wolf moon slow-carb paleo.</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+           <!--  Row Ends-->
+        </div>
+        <!--Container Ends-->
+    </section>
+    <!--// END Content Block 3-5 -->
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!--<section id="video-modal" class="modal home-page-video-modal video-modal">
+  <div class="inner-wrapper">
+    <%
+      youtube_video_id = homepage_promo_video_youtube_id
+      if self.stanford_theme_enabled():
+        youtube_video_id = "2gmreZObCY4"
+    %>
+    <iframe title="YouTube Video" width="640" height="360" src="//www.youtube.com/embed/${youtube_video_id}?showinfo=0" frameborder="0" allowfullscreen></iframe>
+  </div>
+</section>-->
+
+
+
+
+
+<%block name="js_extra">
+   <script type="text/javascript">
+      $(window).load(function() {
+         if(getParameterByName('next')) {
+              $('#login').trigger("click");
+         }
+      })
+   </script>
+</%block>
+
+% if show_signup_immediately is not UNDEFINED:
+  ## NOTE: This won't work in production, because anonymous views are cached, so it will
+  ## show either with or without this extra js for 3 minutes at a time.
+<script type="text/javascript">
+  $(window).load(function() {$('#signup_action').trigger("click");});
+</script>
+% endif
